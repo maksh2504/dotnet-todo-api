@@ -1,0 +1,7 @@
+﻿services:
+  pas-1:
+    image: pas-1
+    build:
+      context: .
+      dockerfile: PAS-1/Dockerfile
+
