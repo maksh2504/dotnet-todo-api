@@ -1,4 +1,4 @@
-# PAS-1 — ASP.NET Core Web API
+# TodoApp.Server — ASP.NET Core Web API
 
 ## 📋 Description
 
@@ -30,8 +30,8 @@ This is the backend of a simple ToDo application built with ASP.NET Core Web API
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/PAS-1.git
-cd PAS-1
+git clone https://github.com/maksh2504/dotnet-todo-api.git
+cd dotnet-todo-api
 ```
 
 ### 2. Update DB connection (PAS-1/appsettings.json)
