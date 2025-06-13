@@ -5,7 +5,7 @@ namespace PAS_1.Services
 {
     public interface ITodoService
     {
-        Task<ServiceResult<IEnumerable<TodoDto>>> GetTodosAsync(string? sort = "desc");
+        Task<ServiceResult<IEnumerable<TodoDto>>> GetTodosAsync(string? sort, bool? finished);
         Task<ServiceResult<TodoDto?>> GetTodoAsync(int id);
         Task<ServiceResult<TodoDto?>> CreateAsync(CreateTodoDto request);
         Task<ServiceResult<TodoDto?>> UpdateAsync(int id, UpdateTodoDto request);

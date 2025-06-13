@@ -8,30 +8,38 @@ namespace PAS_1.Services
 {
     public class TodoService(TodoDbContext context, IHttpContextAccessor httpContextAccessor) : ITodoService
     {
-        public async Task<ServiceResult<IEnumerable<TodoDto>>> GetTodosAsync(string? sort = "desc")
+        public async Task<ServiceResult<IEnumerable<TodoDto>>> GetTodosAsync(string? sort, bool? finished)
         {
             var currentUserId = httpContextAccessor.HttpContext?.User?.GetCurrentUserId();
 
             if (currentUserId is null)
                 return ServiceResult<IEnumerable<TodoDto>>.Fail(ServiceError.Unauthorized("Token missing or invalid"));
 
-            var query = context.Todos.Where(t => t.UserId == currentUserId);
+            var query = context.Todos
+                .Where(t => t.UserId == currentUserId);
+
+            if (finished.HasValue)
+            {
+                query = query.Where(t => t.Finished == finished.Value);
+            }
 
             query = sort?.ToLower() == "asc"
                 ? query.OrderBy(t => t.CreatedAt)
                 : query.OrderByDescending(t => t.CreatedAt);
 
-            var todos = await query.Select(t => new TodoDto
-            {
-                Id = t.Id,
-                Title = t.Title,
-                Description = t.Description,
-                Finished = t.Finished,
-                CreatedAt = t.CreatedAt
-            }).ToListAsync();
+            var todos = await query
+                .Select(t => new TodoDto
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Finished = t.Finished
+                })
+                .ToListAsync();
 
             return ServiceResult<IEnumerable<TodoDto>>.Ok(todos);
         }
+
 
         public async Task<ServiceResult<TodoDto?>> GetTodoAsync(int id)
         {
