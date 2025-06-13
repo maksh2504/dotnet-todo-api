@@ -20,6 +20,9 @@ namespace PAS_1.Entities
         [Column("finished")]
         public bool Finished { get; set; } = false;
         
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
         [Column("user_id")]
         public int? UserId { get; set; }
         

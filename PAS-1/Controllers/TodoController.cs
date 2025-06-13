@@ -11,10 +11,9 @@ namespace PAS_1.Controllers
     public class TodoController(ITodoService todoService) : ControllerBase
     {
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos()
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] string? sort = "desc")
         {
-            var todos = await todoService.GetTodosAsync();
-
+            var todos = await todoService.GetTodosAsync(sort);
             return this.ToActionResult(todos);
         }
         
