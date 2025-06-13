@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PAS_1.Data;
 using PAS_1.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +72,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddHttpContextAccessor();
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/requests.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITodoService, TodoService>();
@@ -79,6 +85,13 @@ var app = builder.Build();
 
 app.UseCors("LocalhostPolicy");
 app.UseHttpsRedirection();
+
+app.Use(async (context, next) =>
+{
+    var request = context.Request;
+    Log.Information("HTTP {Method} {Path}{QueryString}", request.Method, request.Path, request.QueryString);
+    await next();
+});
 
 app.UseRouting();
 app.UseAuthentication();
