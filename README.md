@@ -73,3 +73,83 @@ For protected routes, pass the access token in the Authorization header like:
 ```
 Authorization: Bearer <your_token>
 ```
+
+
+
+## Requests examples
+
+### Auth:
+
+#### Register
+```
+POST /api/auth/register
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+#### Login
+```
+POST /api/auth/login
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+#### Refresh token
+```
+POST /api/auth/refresh
+{
+  "refreshToken": "string"
+}
+```
+
+### Users:
+
+#### Get current user
+```
+GET /api/users/current
+```
+
+### ToDos:
+
+#### Get ToDos list
+```
+GET /api/api/todos
+Query: {
+    "sort": "asc" | "desc",
+    "finished": "empty" | "true" | "false"
+}
+```
+
+#### Create ToDo
+```
+POST /api/api/todos
+{
+  "title": "string",
+  "description": "string",
+  "finished": true
+}
+```
+
+#### Get ToDo
+```
+GET /api/api/todos/{id}
+```
+
+#### Update ToDo
+```
+PATCH /api/api/todos
+{
+  "title": "string",
+  "description": "string",
+  "finished": true
+}
+```
+
+#### Delete ToDo
+```
+Delete /api/api/todos/{id}
+```
